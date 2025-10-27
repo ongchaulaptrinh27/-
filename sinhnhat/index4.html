@@ -126,38 +126,39 @@
   </div>
 
   <script>
-    // Hiệu ứng gõ chữ cho từng dòng
-    const paragraphs = document.querySelectorAll("#message p");
-    const button = document.getElementById("signatureBtn");
+  // Hiệu ứng gõ chữ cho từng dòng
+  const paragraphs = document.querySelectorAll("#message p");
+  const button = document.getElementById("signatureBtn"); // nút bấm duy nhất của bạn
 
-    let delay = 0;
+  let delay = 0;
 
-    paragraphs.forEach((p, index) => {
-      const text = p.textContent;
-      p.textContent = "";
-      const chars = text.split("");
+  paragraphs.forEach((p) => {
+    const text = p.textContent.trim();
+    p.textContent = "";
+    const chars = text.split("");
 
-      setTimeout(() => {
-        p.style.opacity = 1;
-        chars.forEach((ch, i) => {
-          setTimeout(() => {
-            p.textContent += ch;
-          }, i * 40);
-        });
-      }, delay);
-
-      delay += text.length * 40 + 700; // tạm dừng giữa các dòng
-    });
-
-    // Hiển thị nút sau khi toàn bộ gõ xong
     setTimeout(() => {
-      button.style.opacity = 1;
-    }, delay + 500);
+      p.style.opacity = 1;
+      chars.forEach((ch, i) => {
+        setTimeout(() => {
+          p.textContent += ch;
+        }, i * 40);
+      });
+    }, delay);
 
-    // Chuyển hướng khi nhấn nút
-    button.addEventListener("click", () => {
-      window.location.href = "./harumigiftbox-main/index.html"; // hoặc "index5" tùy cấu trúc của bạn
-    });
-  </script>
+    delay += text.length * 40 + 700; // tạm dừng giữa các dòng
+  });
+
+  // Hiển thị nút sau khi toàn bộ gõ xong
+  setTimeout(() => {
+    button.style.opacity = 1;
+  }, delay + 500);
+
+  // Khi bấm nút -> chuyển sang trang khác
+  button.addEventListener("click", () => {
+    window.location.href = "https://taoanhdep.com/love/?b=eyJ0IjpbInNpbmggbmjhuq10IHZ1aSB24bq7IG5ow6EiLCJoZyBkYyBideG7k24gYmnhur90IGNoxrBhIiwiYW5oIGx1biBj4bqhbmggZW0iLCJ5w6p1IGVtbSJdLCJhIjoibmFwIn0="; // Thay bằng link thật của bạn
+  });
+</script>
 </body>
 </html>
+
