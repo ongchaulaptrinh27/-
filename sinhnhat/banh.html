@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chúc Mừng Sinh Nhật Vanh</title>
+  <link rel="stylesheet" href="banh.css" />
+</head>
+<body>
+  <div class="banner">
+    <button id="giftBtn">🎁 MỞ QUÀ NGAY</button>
+    <div id="hbdText" class="hidden">thổi nến đi nèn</div>
+    <div class="slider hidden" style="--quantity: 10">
+      <div class="item" style="--position: 1"><img src="images/anh1.jpg" alt="Anh1"></div>
+      <div class="item" style="--position: 2"><img src="images/anh2.jpg" alt="Anh2"></div>
+      <div class="item" style="--position: 3"><img src="images/anh3.jpg" alt="Anh3"></div>
+      <div class="item" style="--position: 4"><img src="images/anh4.jpg" alt="Anh4"></div>
+      <div class="item" style="--position: 5"><img src="images/anh5.jpg" alt="Anh5"></div>
+      <div class="item" style="--position: 6"><img src="images/anh6.jpg" alt="Anh6"></div>
+      <div class="item" style="--position: 7"><img src="images/anh7.jpg" alt="Anh7"></div>
+      <div class="item" style="--position: 8"><img src="images/anh8.jpg" alt="Anh8"></div>
+      <div class="item" style="--position: 9"><img src="images/anh9.jpg" alt="Anh9"></div>
+      <div class="item" style="--position: 10"><img src="images/anh10.jpg" alt="Anh10"></div>
+    </div>
+    <img class="cake hidden" src="images/cake.png" alt="Bánh sinh nhật">
+    <audio id="birthday-audio" src="hpbd.mp3" preload="auto"></audio>
+    <canvas id="fireworks"></canvas>
+  </div>
+
+  <script src="phaohoa.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const audioElement = document.getElementById("birthday-audio");
+
+  // Hàm phát hiện thổi nến
+  async function detectBlow() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(stream);
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      source.connect(analyser);
+
+      const buffer = new Uint8Array(analyser.fftSize);
+
+      let blowCount = 0;
+
+      function analyze() {
+        analyser.getByteTimeDomainData(buffer);
+        let sum = 0;
+        for (let i = 0; i < buffer.length; i++) {
+          const val = (buffer[i] - 128) / 128;
+          sum += val * val;
+        }
+        const rms = Math.sqrt(sum / buffer.length);
+
+        // Ngưỡng nhận diện thổi (điều chỉnh nếu cần)
+        if (rms > 0.09) {
+          blowCount++;
+        } else {
+          blowCount = Math.max(0, blowCount - 1);
+        }
+
+        if (blowCount > 5) {
+          // Dừng micro
+          stream.getTracks().forEach(t => t.stop());
+          // Chúc mừng rồi chuyển trang
+          setTimeout(() => {
+            window.location.href = "index4.html";
+          }, 1000);
+          return;
+        }
+
+        requestAnimationFrame(analyze);
+      }
+
+      analyze();
+    } catch (err) {
+      console.error("Không thể sử dụng micro:", err);
+      alert("Trình duyệt cần quyền sử dụng micro để thổi nến 🎤");
+    }
+  }
+
+  // Gọi hàm phát hiện khi nhạc sinh nhật bắt đầu phát
+  const giftBtn = document.getElementById("giftBtn");
+  giftBtn.addEventListener("click", () => {
+    detectBlow();
+  });
+});
+</script>
+</body>
+</html>

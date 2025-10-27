@@ -1,0 +1,1270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Updated to modern Inter font */
+    font-family: "Inter", sans-serif;
+    overflow: hidden;
+    background: #000;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+/* PIN Form Styles - Updated to Bright Tech Blue Theme */
+.pin-container {
+    background: linear-gradient(135deg, #e6f3ff, #cce7ff);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 1rem;
+}
+
+.pin-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%2300aaff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    pointer-events: none;
+}
+
+.pin-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 170, 255, 0.3);
+    border: 2px solid #00aaff;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+}
+
+.pin-title {
+    color: #0066cc;
+    font-weight: 900;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 102, 204, 0.3);
+    line-height: 1.2;
+}
+
+.pin-subtitle {
+    color: #0088ff;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.pin-code-display {
+    background: rgba(0, 170, 255, 0.1);
+    border: 1px dashed #00aaff;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    color: #0066cc;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* New OTP-style input container */
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.otp-input {
+    width: 50px;
+    height: 60px;
+    background: rgba(0, 170, 255, 0.1);
+    border: 2px solid #00aaff;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0066cc;
+    font-family: "JetBrains Mono", monospace;
+    transition: all 0.3s ease;
+}
+
+.otp-input:focus {
+    outline: none;
+    border-color: #0088ff;
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+    transform: scale(1.05);
+    background: rgba(0, 170, 255, 0.15);
+}
+
+.pin-input {
+    background: rgba(0, 170, 255, 0.1);
+    border: 2px solid #00aaff;
+    border-radius: 15px;
+    padding: 1rem;
+    font-size: 1.3rem;
+    text-align: center;
+    color: #0066cc;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    letter-spacing: 0.3rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.pin-input:focus {
+    outline: none;
+    border-color: #0088ff;
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+    transform: scale(1.02);
+}
+
+.pin-btn {
+    background: linear-gradient(45deg, #00aaff, #0088ff);
+    border: none;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 170, 255, 0.4);
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.pin-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 7px rgba(0, 170, 255, 0.6);
+}
+
+.error-message {
+    color: #dc3545;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.bi-bug {
+    margin-top: 5px;
+    font-size: larger;
+}
+
+/* Matrix Container Styles */
+.matrix-container {
+    background: #000;
+    min-height: 100vh;
+    position: relative;
+    display: none;
+    overflow: hidden;
+}
+
+.matrix-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Matrix Text Styles - Updated with glitch effect */
+.matrix-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    font-size: 3rem;
+    color: #00ccff;
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #00ccff;
+    letter-spacing: 0.05em;
+    padding: 0 1rem;
+    max-width: 90vw;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.matrix-text.show {
+    opacity: 1;
+    animation: textGlow 0.3s ease-in-out;
+}
+
+.matrix-text.fade-out {
+    animation: textFadeOut 0.5s ease-in-out forwards;
+}
+
+/* Updated character animation for glitch effect */
+.matrix-text .char.glitch-char {
+    display: inline-block;
+    opacity: 0;
+    color: #00ccff;
+    text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #00ccff;
+    animation: glitchReveal 1s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glitch effect with RGB separation and distortion */
+.matrix-text .char.glitch-char::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #ff0040;
+    animation: glitchRed 0.6s ease-out forwards;
+    animation-delay: inherit;
+    z-index: -1;
+}
+
+/* Blue channel separation for glitch effect */
+.matrix-text .char.glitch-char::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #0040ff;
+    animation: glitchBlue 0.6s ease-out forwards;
+    animation-delay: inherit;
+    z-index: -2;
+}
+
+/* New holographic wave particle system */
+.holo-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #00ccff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 15;
+    box-shadow: 0 0 6px #00ccff, 0 0 12px #00ccff, 0 0 18px #00ccff;
+    animation: holoParticleFloat 2.5s ease-out forwards;
+}
+
+.energy-wave {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #00ccff 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 14;
+    animation: energyWaveExpand 2s ease-out forwards;
+}
+
+/* Final Display */
+.final-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    padding: 0 1rem;
+    max-width: 90vw;
+}
+
+.final-display.show {
+    opacity: 1;
+    animation: finalGlow 1s ease-in-out;
+}
+
+/* Add styling for the final logo image */
+.final-display .final-logo {
+    max-width: 80vw;
+    max-height: 60vh;
+    width: auto;
+    height: auto;
+    filter: drop-shadow(0 0 20px #00ccff) drop-shadow(0 0 40px #00ccff);
+    opacity: 0;
+    transform: scale(0.8);
+    animation: logoAppear 1.5s ease-out forwards;
+}
+
+@keyframes logoAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+        filter: drop-shadow(0 0 5px #00ccff);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 30px #00ccff) drop-shadow(0 0 60px #00ccff);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px #00ccff) drop-shadow(0 0 40px #00ccff);
+    }
+}
+
+.final-display .line {
+    color: #00ccff;
+    text-shadow: 0 0 4px #00ccff, 0 0 8px #00ccff;
+    margin: 15px 0;
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: lineSlideIn 0.8s ease-out forwards;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.final-display .line:nth-child(1) {
+    font-size: 2rem;
+    animation-delay: 0s;
+}
+
+.final-display .line:nth-child(2) {
+    font-size: 2rem;
+    animation-delay: 0.3s;
+}
+
+.final-display .line:nth-child(3) {
+    font-size: 1.8rem;
+    animation-delay: 0.6s;
+}
+
+.final-display .line:nth-child(4) {
+    font-size: 1.8rem;
+    animation-delay: 0.9s;
+}
+
+/* Landscape Notification Styles - Updated with Bright Tech Blue Theme */
+.landscape-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e6f3ff 0%, #cce7ff 50%, #b3daff 100%);
+    display: none;
+    z-index: 1000;
+    font-family: "Inter", sans-serif;
+}
+
+.landscape-notification::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="%2300aaff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    pointer-events: none;
+}
+
+.landscape-notification.show {
+    display: flex;
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.landscape-notification h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    white-space: nowrap;
+    color: #0066cc;
+    text-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #0066cc, #0088ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.landscape-notification .instruction-vi {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #004d99;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.landscape-notification .instruction-en {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    color: #0066cc;
+    line-height: 1.4;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.landscape-notification .rotate-icon {
+    font-size: 4rem;
+    color: #00aaff;
+    margin: 1.5rem 0;
+    filter: drop-shadow(0 4px 12px rgba(0, 170, 255, 0.3));
+    animation: gentleRotate 3s ease-in-out infinite;
+}
+
+.skip-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #00aaff;
+    border-radius: 25px;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0066cc;
+    box-shadow: 0 8px 25px rgba(0, 170, 255, 0.2);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.skip-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.skip-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 170, 255, 0.3);
+    border-color: #0088ff;
+}
+
+.skip-button:hover::before {
+    left: 100%;
+}
+
+.skip-button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.25);
+}
+
+/* Added cake container and particle styles for birthday cake effect */
+.cake-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cake-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #00ccff;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 4px #00ccff, 0 0 8px #00ccff;
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cake-particle.formed {
+    box-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff, 0 0 24px #00ccff;
+    animation: cakeGlow 2s ease-in-out infinite alternate;
+}
+
+.candle-particle {
+    background: #ffff00;
+    box-shadow: 0 0 4px #ffff00, 0 0 8px #ffff00;
+    animation: candleFlicker 1.5s ease-in-out infinite alternate;
+}
+
+.candle-particle.formed {
+    box-shadow: 0 0 8px #ffff00, 0 0 16px #ffff00, 0 0 24px #ffff00;
+}
+
+.birthday-message {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: #00ccff;
+    text-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff;
+    animation: messageAppear 1s ease-out forwards;
+    white-space: nowrap;
+}
+
+@keyframes cakeGlow {
+    0% {
+        box-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff, 0 0 24px #00ccff;
+        transform: scale(1);
+    }
+
+    100% {
+        box-shadow: 0 0 12px #00ccff, 0 0 24px #00ccff, 0 0 36px #00ccff;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes candleFlicker {
+    0% {
+        box-shadow: 0 0 4px #ffff00, 0 0 8px #ffff00;
+        transform: scale(1);
+    }
+
+    100% {
+        box-shadow: 0 0 8px #ffff00, 0 0 16px #ffff00, 0 0 24px #ff8800;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes messageAppear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Mobile Responsive Design */
+@media screen and (max-width: 480px) {
+    .pin-card {
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin: 0.5rem;
+    }
+
+    .pin-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .pin-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .pin-code-display {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+
+    .otp-input {
+        width: 40px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .pin-input {
+        font-size: 1.1rem;
+        letter-spacing: 0.2rem;
+        padding: 0.8rem;
+    }
+
+    .pin-btn {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.5rem;
+    }
+
+    /* Matrix text sizing for very small screens */
+    .matrix-text {
+        font-size: 1.8rem;
+        padding: 0 0.5rem;
+    }
+
+    .final-display .line:nth-child(1) {
+        font-size: 1.6rem;
+    }
+
+    .final-display .line:nth-child(2) {
+        font-size: 1.3rem;
+    }
+
+    .final-display .line:nth-child(3) {
+        font-size: 1.1rem;
+    }
+
+    .final-display .line:nth-child(4) {
+        font-size: 1.1rem;
+    }
+
+    .landscape-notification h3 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .landscape-notification .instruction-vi {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .landscape-notification .instruction-en {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .landscape-notification .rotate-icon {
+        font-size: 3rem;
+        margin: 1rem 0;
+    }
+
+    .skip-button {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.5rem;
+        margin-top: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 640px) and (min-width: 481px) {
+    .pin-title {
+        font-size: 1.6rem;
+    }
+
+    .pin-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .otp-input {
+        width: 45px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+
+    .pin-input {
+        font-size: 1.2rem;
+        letter-spacing: 0.25rem;
+    }
+
+    .matrix-text {
+        font-size: 2.2rem;
+    }
+
+    .final-display .line:nth-child(1) {
+        font-size: 2rem;
+    }
+
+    .final-display .line:nth-child(2) {
+        font-size: 1.6rem;
+    }
+
+    .final-display .line:nth-child(3) {
+        font-size: 1.4rem;
+    }
+
+    .final-display .line:nth-child(4) {
+        font-size: 1.4rem;
+    }
+
+    .final-display .final-logo {
+        max-width: 85vw;
+        max-height: 50vh;
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 641px) {
+    .matrix-text {
+        font-size: 2.5rem;
+    }
+
+    .final-display .line:nth-child(1) {
+        font-size: 2.2rem;
+    }
+
+    .final-display .line:nth-child(2) {
+        font-size: 1.8rem;
+    }
+
+    .final-display .line:nth-child(3) {
+        font-size: 1.6rem;
+    }
+
+    .final-display .line:nth-child(4) {
+        font-size: 1.6rem;
+    }
+}
+
+/* Landscape mode optimizations */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .matrix-text {
+        font-size: 2rem;
+    }
+
+    .final-display .line:nth-child(1) {
+        font-size: 1.8rem;
+    }
+
+    .final-display .line:nth-child(2) {
+        font-size: 1.4rem;
+    }
+
+    .final-display .line:nth-child(3) {
+        font-size: 1.2rem;
+    }
+
+    .final-display .line:nth-child(4) {
+        font-size: 1.2rem;
+    }
+
+    .final-display .line {
+        margin: 10px 0;
+    }
+}
+
+/* Tablet and larger screens */
+@media screen and (min-width: 769px) {
+    .pin-title {
+        font-size: 2rem;
+    }
+
+    .pin-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .matrix-text {
+        font-size: 4rem;
+    }
+
+    .final-display .line:nth-child(1) {
+        font-size: 3.5rem;
+    }
+
+    .final-display .line:nth-child(2) {
+        font-size: 2.8rem;
+    }
+
+    .final-display .line:nth-child(3) {
+        font-size: 2.3rem;
+    }
+
+    .final-display .line:nth-child(4) {
+        font-size: 2.3rem;
+    }
+
+    .final-display .final-logo {
+        max-width: 60vw;
+        max-height: 70vh;
+    }
+}
+
+/* Updated Animations with blue theme and holographic wave effects */
+@keyframes matrixDissolve {
+    0% {
+        opacity: 0;
+        color: #004d99;
+        text-shadow: 0 0 2px #004d99;
+        transform: scale(0.8);
+    }
+
+    20% {
+        opacity: 0.3;
+        color: #0066cc;
+        text-shadow: 0 0 4px #0066cc;
+    }
+
+    40% {
+        opacity: 0.6;
+        color: #0088ff;
+        text-shadow: 0 0 6px #0088ff;
+    }
+
+    60% {
+        opacity: 0.8;
+        color: #00aaff;
+        text-shadow: 0 0 8px #00aaff;
+        transform: scale(1.1);
+    }
+
+    80% {
+        opacity: 0.9;
+        color: #00ccff;
+        text-shadow: 0 0 10px #00ccff;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        color: #00ccff;
+        text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff;
+        transform: scale(1);
+    }
+}
+
+@keyframes matrixScramble {
+    0% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+
+    25% {
+        transform: translateY(-2px) rotateX(5deg);
+    }
+
+    50% {
+        transform: translateY(1px) rotateX(-3deg);
+    }
+
+    75% {
+        transform: translateY(-1px) rotateX(2deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0 0 3px #00ccff;
+    }
+
+    50% {
+        text-shadow: 0 0 8px #00ccff, 0 0 12px #00ccff;
+    }
+
+    100% {
+        text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff;
+    }
+}
+
+@keyframes textFadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+@keyframes lineSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes finalGlow {
+    0% {
+        filter: brightness(0.8);
+    }
+
+    50% {
+        filter: brightness(1.5);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+@keyframes notificationPulse {
+
+    0%,
+    100% {
+        opacity: 0.9;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes gentleRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes particleDissolve {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        box-shadow: 0 0 4px #00ccff, 0 0 8px #00ccff;
+    }
+
+    20% {
+        opacity: 0.9;
+        transform: translate(calc(var(--end-x) * 0.2), calc(var(--end-y) * 0.2)) scale(1.2);
+        box-shadow: 0 0 6px #00ccff, 0 0 12px #00ccff;
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translate(calc(var(--end-x) * 0.6), calc(var(--end-y) * 0.6)) scale(0.8);
+        box-shadow: 0 0 3px #00ccff, 0 0 6px #00ccff;
+    }
+
+    80% {
+        opacity: 0.3;
+        transform: translate(calc(var(--end-x) * 0.9), calc(var(--end-y) * 0.9)) scale(0.4);
+        box-shadow: 0 0 2px #00ccff, 0 0 4px #00ccff;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--end-x), var(--end-y)) scale(0.1);
+        box-shadow: none;
+    }
+}
+
+@keyframes charFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes holographicWave {
+    0% {
+        opacity: 0;
+        color: transparent;
+        text-shadow: none;
+        transform: scale(0.5) rotateY(-90deg);
+        filter: blur(10px);
+    }
+
+    15% {
+        opacity: 0.3;
+        color: #004d99;
+        text-shadow: 0 0 3px #004d99;
+        transform: scale(0.7) rotateY(-45deg);
+        filter: blur(5px);
+    }
+
+    30% {
+        opacity: 0.6;
+        color: #0066cc;
+        text-shadow: 0 0 6px #0066cc, 0 0 12px #0066cc;
+        transform: scale(0.9) rotateY(-15deg);
+        filter: blur(2px);
+    }
+
+    50% {
+        opacity: 0.8;
+        color: #0088ff;
+        text-shadow: 0 0 8px #0088ff, 0 0 16px #0088ff, 0 0 24px #0088ff;
+        transform: scale(1.1) rotateY(5deg);
+        filter: blur(0px);
+    }
+
+    70% {
+        opacity: 0.95;
+        color: #00aaff;
+        text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff, 0 0 30px #00aaff;
+        transform: scale(1.05) rotateY(0deg);
+    }
+
+    85% {
+        opacity: 1;
+        color: #00ccff;
+        text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #00ccff, 0 0 40px #00ccff;
+        transform: scale(1.02) rotateY(0deg);
+    }
+
+    100% {
+        opacity: 1;
+        color: #00ccff;
+        text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #00ccff;
+        transform: scale(1) rotateY(0deg);
+        filter: blur(0px);
+    }
+}
+
+@keyframes scanLine {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes holographicDissolve {
+    0% {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg);
+        filter: blur(0px);
+    }
+
+    25% {
+        opacity: 0.8;
+        transform: scale(1.05) rotateY(15deg);
+        filter: blur(1px);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.95) rotateY(45deg);
+        filter: blur(3px);
+        color: #0088ff;
+    }
+
+    75% {
+        opacity: 0.2;
+        transform: scale(0.8) rotateY(75deg);
+        filter: blur(6px);
+        color: #004d99;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.5) rotateY(90deg);
+        filter: blur(10px);
+        color: transparent;
+    }
+}
+
+@keyframes holoParticleFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        box-shadow: 0 0 6px #00ccff, 0 0 12px #00ccff, 0 0 18px #00ccff;
+    }
+
+    25% {
+        opacity: 0.9;
+        transform: translate(calc(var(--end-x) * 0.3), calc(var(--end-y) * 0.3)) scale(1.3);
+        box-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff, 0 0 24px #00ccff;
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translate(calc(var(--end-x) * 0.6), calc(var(--end-y) * 0.6)) scale(1.1);
+        box-shadow: 0 0 6px #00aaff, 0 0 12px #00aaff, 0 0 18px #00aaff;
+    }
+
+    75% {
+        opacity: 0.4;
+        transform: translate(calc(var(--end-x) * 0.85), calc(var(--end-y) * 0.85)) scale(0.7);
+        box-shadow: 0 0 4px #0088ff, 0 0 8px #0088ff;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--end-x), var(--end-y)) scale(0.2);
+        box-shadow: 0 0 2px #0066cc;
+    }
+}
+
+@keyframes energyWaveExpand {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+        background: radial-gradient(circle, #00ccff 0%, rgba(0, 204, 255, 0.5) 50%, transparent 70%);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(8);
+        background: radial-gradient(circle, #00aaff 0%, rgba(0, 170, 255, 0.3) 50%, transparent 70%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(15);
+        background: radial-gradient(circle, #0088ff 0%, rgba(0, 136, 255, 0.1) 50%, transparent 70%);
+    }
+}
+
+/* Updated animations for glitch effect */
+@keyframes glitchReveal {
+    0% {
+        opacity: 0;
+        transform: translateX(0) scale(1);
+        filter: blur(0px);
+    }
+
+    10% {
+        opacity: 0.8;
+        transform: translateX(-2px) scale(1.05);
+        filter: blur(1px);
+    }
+
+    20% {
+        opacity: 0.6;
+        transform: translateX(3px) scale(0.95);
+        filter: blur(2px);
+    }
+
+    30% {
+        opacity: 0.9;
+        transform: translateX(-1px) scale(1.02);
+        filter: blur(1px);
+    }
+
+    40% {
+        opacity: 0.7;
+        transform: translateX(2px) scale(0.98);
+        filter: blur(1.5px);
+    }
+
+    50% {
+        opacity: 0.95;
+        transform: translateX(-1px) scale(1.01);
+        filter: blur(0.5px);
+    }
+
+    60% {
+        opacity: 0.8;
+        transform: translateX(1px) scale(0.99);
+        filter: blur(1px);
+    }
+
+    70% {
+        opacity: 0.9;
+        transform: translateX(-0.5px) scale(1.005);
+        filter: blur(0.3px);
+    }
+
+    80% {
+        opacity: 0.95;
+        transform: translateX(0.5px) scale(0.995);
+        filter: blur(0.2px);
+    }
+
+    90% {
+        opacity: 0.98;
+        transform: translateX(-0.2px) scale(1.001);
+        filter: blur(0.1px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes glitchRed {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+
+    20% {
+        transform: translateX(-3px);
+        opacity: 0.7;
+    }
+
+    40% {
+        transform: translateX(2px);
+        opacity: 0.5;
+    }
+
+    60% {
+        transform: translateX(-1px);
+        opacity: 0.3;
+    }
+
+    80% {
+        transform: translateX(1px);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+}
+
+@keyframes glitchBlue {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+
+    20% {
+        transform: translateX(3px);
+        opacity: 0.6;
+    }
+
+    40% {
+        transform: translateX(-2px);
+        opacity: 0.4;
+    }
+
+    60% {
+        transform: translateX(1px);
+        opacity: 0.3;
+    }
+
+    80% {
+        transform: translateX(-1px);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+}
+

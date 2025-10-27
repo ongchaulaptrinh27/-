@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lá thư 💌</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #fff0f3, #ffe5ec);
+    font-family: "Segoe Script", cursive;
+    overflow: hidden;
+  }
+
+  .outer-box {
+    position: relative;
+    width: 440px;
+    height: 540px;
+    background: #ffcad4;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 6s ease-in-out infinite;
+    box-shadow: 0 0 30px rgba(255, 182, 193, 0.4);
+  }
+
+  .inner-box {
+    position: absolute;
+    width: 350px;
+    height: 450px;
+    background: #fff;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: inset 0 0 20px rgba(255, 192, 203, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 2s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .message {
+    width: 100%;
+    color: #5c2a2a;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .message h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #d6336c;
+  }
+
+  .message p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 10px 0;
+    opacity: 0;
+  }
+
+  /* Nút chữ ký */
+  .signature-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ffb3c1;
+    color: #fff;
+    font-size: 18px;
+    font-family: "Segoe Script", cursive;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+
+  .signature-btn:hover {
+    background-color: #ff8fa3;
+    transform: scale(1.05);
+  }
+
+  .outer-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(255,182,193,0.3));
+    z-index: -1;
+    animation: glow 5s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 10px rgba(255,182,193,0.4); }
+    to { box-shadow: 0 0 30px rgba(255,182,193,0.8); }
+  }
+.inner-box {
+  height: 470px;
+}
+
+</style>
+</head>
+<body>
+  <div class="outer-box">
+    <div class="inner-box">
+      <div class="message" id="message">
+        <h2>Gửi em yêu 💕</h2>
+        <p>Hôm nay là một ngày thật đặc biệt — ngày mà thế giới được đón chào em 💫</p>
+<p>Mỗi năm trôi qua, anh lại càng thấy may mắn hơn vì có em bên cạnh,</p>
+<p>người khiến cuộc sống của anh trở nên rực rỡ và tràn đầy yêu thương.</p>
+<p>Chúc em sinh nhật thật hạnh phúc, luôn mỉm cười tươi tắn và được bao quanh bởi những điều ngọt ngào nhất 🌸</p>
+
+        <button class="signature-btn" id="signatureBtn">— tip tục nek —</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Hiệu ứng gõ chữ cho từng dòng
+    const paragraphs = document.querySelectorAll("#message p");
+    const button = document.getElementById("signatureBtn");
+
+    let delay = 0;
+
+    paragraphs.forEach((p, index) => {
+      const text = p.textContent;
+      p.textContent = "";
+      const chars = text.split("");
+
+      setTimeout(() => {
+        p.style.opacity = 1;
+        chars.forEach((ch, i) => {
+          setTimeout(() => {
+            p.textContent += ch;
+          }, i * 40);
+        });
+      }, delay);
+
+      delay += text.length * 40 + 700; // tạm dừng giữa các dòng
+    });
+
+    // Hiển thị nút sau khi toàn bộ gõ xong
+    setTimeout(() => {
+      button.style.opacity = 1;
+    }, delay + 500);
+
+    // Chuyển hướng khi nhấn nút
+    button.addEventListener("click", () => {
+      window.location.href = "./harumigiftbox-main/index.html"; // hoặc "index5" tùy cấu trúc của bạn
+    });
+  </script>
+</body>
+</html>
